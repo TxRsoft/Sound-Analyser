@@ -97,7 +97,7 @@ const String SoundAnalyserAudioProcessor::getParameterName (int index)
         default:            break;
     }
     
-    return String::empty;
+    return String();
 }
 
 //==============================================================================
@@ -182,7 +182,7 @@ void SoundAnalyserAudioProcessor::setCurrentProgram (int index)
 //==============================================================================
 const String SoundAnalyserAudioProcessor::getProgramName (int index)
 {
-    return String::empty;
+    return String();
 }
 
 //==============================================================================
@@ -251,7 +251,7 @@ AudioProcessorEditor* SoundAnalyserAudioProcessor::createEditor()
 //==============================================================================
 void SoundAnalyserAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    ScopedPointer<XmlElement> xml = analyserTree.createXml();
+	std::unique_ptr<XmlElement> xml = analyserTree.createXml();
     
     // then use this helper function to stuff it into the binary blob and return it..
     copyXmlToBinary (*xml, destData);
@@ -260,7 +260,7 @@ void SoundAnalyserAudioProcessor::getStateInformation (MemoryBlock& destData)
 //==============================================================================
 void SoundAnalyserAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    ScopedPointer<XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
+	std::unique_ptr<XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
     
     analyserTree = ValueTree::fromXml(*xmlState);
     
